@@ -1,0 +1,21 @@
+<br><br>
+<div class="m-5">
+  <table class="table table-striped table-warning">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Recurso</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Fecha de Creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let content of contents;">
+        <td>{{content.name}}</td>
+        <td>{{content.resource}}</td>
+        <td>{{content.credits}}</td>
+        <td>{{content.creationDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

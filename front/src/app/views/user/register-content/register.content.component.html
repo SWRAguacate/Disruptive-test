@@ -1,0 +1,49 @@
+<div id="divForm">
+  <form class="form" [formGroup]="form" (ngSubmit)="agregar()">
+    <div class="form-group has-float-label">
+        <label>* Titulo del contenido</label>
+        <input class="form-control" formControlName="name" maxlength="64"
+            [ngClass]="{'is-invalid': tieneError('name')}" required>
+        <div class="invalid-feedback d-block" *ngIf="tieneError('name')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Tipo de contenido </label>
+      <select class="form-control" class="form-control" formControlName="idContentType"
+        [ngClass]="{'is-invalid': tieneError('idContentType')}" required>
+        <option value="TXT">Contenidos de texto</option>
+        <option value="IMG">Contenidos de imágenes</option>
+        <option value="URL">Contenidos de URL</option>
+      </select>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('idContentType')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Temática </label>
+      <select class="form-control" class="form-control" formControlName="idCategory"
+        [ngClass]="{'is-invalid': tieneError('idCategory')}" required>
+        <option *ngFor="let categoria of categorias;" value="{{categoria.name}}">{{categoria.name}}</option>
+      </select>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('idCategory')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Contenido </label>
+      <ng-container *ngIf="form.get('idContentType').value === 'IMG'; else otherContent">
+        <input type="file" accept="image/png, image/jpeg" class="form-control" formControlName="resource"
+              [ngClass]="{'is-invalid': tieneError('resource')}" required (change)="onFileSelected($event)">
+      </ng-container>
+      <ng-template #otherContent>
+        <textarea *ngIf="form.get('idContentType').value === 'TXT'" class="form-control" formControlName="resource"
+                  [ngClass]="{'is-invalid': tieneError('resource')}" required></textarea>
+        <input type="text" *ngIf="form.get('idContentType').value !== 'TXT'" class="form-control" formControlName="resource"
+                  [ngClass]="{'is-invalid': tieneError('resource')}" required>
+      </ng-template>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('resource')">* Requerido</div>
+    </div>
+
+    <button type="submit" class="btn btn-dark btn-xs text-weight-bold mt-3 me-3" >
+        <i class="simple-icon-plus"></i> Guardar
+    </button>
+  </form>
+</div>

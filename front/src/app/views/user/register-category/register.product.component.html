@@ -1,0 +1,25 @@
+<div id="divForm">
+  <form class="form" [formGroup]="form" (ngSubmit)="agregar()">
+    <div class="form-group has-float-label">
+        <label>* Nombre de la temática</label>
+        <input class="form-control" formControlName="name" maxlength="64"
+            [ngClass]="{'is-invalid': tieneError('name')}" required>
+        <div class="invalid-feedback d-block" *ngIf="tieneError('name')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Tipo de contenido </label>
+      <select class="form-control" class="form-control" formControlName="idContentType"
+        [ngClass]="{'is-invalid': tieneError('idContentType')}" required>
+        <option value="TXT">Contenidos de texto</option>
+        <option value="IMG">Contenidos de imágenes</option>
+        <option value="URL">Contenidos de URL</option>
+      </select>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('idContentType')">* Requerido</div>
+    </div>
+
+    <button type="submit" class="btn btn-dark btn-xs text-weight-bold mt-3" >
+        <i class="simple-icon-plus"></i> Guardar
+    </button>
+  </form>
+</div>

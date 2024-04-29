@@ -1,0 +1,35 @@
+<nav class="navbar navbar-light yellow-bg fixed-top">
+  <form class="container-fluid justify-content-start">
+    <p style="cursor: pointer;" class="center" (click)="redirigir();"> DISRUPTIVE APP </p>
+    <div class="dropdown ms-4">
+      <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Menú
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li><a class="dropdown-item" [routerLink]="['/dashboard']">Inicio</a></li>
+        <li *ngIf="isLoggedIn;">
+          <a class="dropdown-item" [routerLink]="['/user/register/content']">Publicar contenido</a>
+        </li>
+        <li *ngIf="isLoggedIn;">
+          <a class="dropdown-item" [routerLink]="['/user/register/category']">Crear temática</a>
+        </li>
+        <li *ngIf="isLoggedIn; else noLogged">
+          <a class="dropdown-item" [routerLink]="['/user/login']" (click)="logout()">Cerrar sesión</a>
+        </li>
+        <ng-template #noLogged>
+          <li>
+            <a class="dropdown-item" [routerLink]="['/user/login']">Iniciar sesión</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+    <div class="dropdown ms-4">
+      <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Temáticas
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark" *ngFor="let categoria of categorias">
+        <li><a class="dropdown-item" [routerLink]="['/' + categoria.id]"> {{ categoria.id }} ({{ categoria.cantidad }})</a></li>
+      </ul>
+    </div>
+  </form>
+</nav>

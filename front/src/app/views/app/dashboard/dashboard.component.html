@@ -1,0 +1,101 @@
+<br><br><br>
+<form class="d-flex m-4">
+  <input class="form-control me-2" type="search" placeholder="Introduce tu busqueda..." aria-label="Search" (keyup)="buscarCoincidencias($event)">
+</form>
+<div class="row row-cols-1 row-cols-md-3 g-3 m-3">
+  <div *ngFor="let content of contenidos;">
+    <div class="col">
+      <div class="card floating-card" [id]="content._id">
+        <div class="qr-container pt-2" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+          <div *ngIf="content.idContentType == 'IMG'">
+            <img class="card-img-top" [width]="256" [height]="256" style="border-radius: 10px;" src="../../../../assets/imagen.png" />
+          </div>
+
+          <div *ngIf="content.idContentType == 'TXT'">
+            <img class="card-img-top" [width]="256" [height]="256" style="border-radius: 10px;" src="../../../../assets/document.jpg" />
+          </div>
+
+          <div *ngIf="content.idContentType == 'URL'">
+            <img class="card-img-top" [width]="256" [height]="256" style="border-radius: 10px;" src="../../../../assets/video.jpg" />
+          </div>
+        </div>
+        <div class="card-body yellow-bg">
+          <h5 class="card-title" style="cursor: pointer;" (click)="goToProduct(content);" data-bs-toggle="modal" data-bs-target="#watchPublication">
+            <span>
+              {{content.name}}
+            </span>
+          </h5>
+          <p class="card-text" style="height: 3em;">Temática: {{content.idCategory}}</p>
+          <p class="card-text">
+            <small class="text-body-secondary">Autor: {{content.credits}}</small>
+            <fa-icon [icon]="faEdit" style="float: right; cursor: pointer;" (click)="openModal(content)"
+            data-bs-toggle="modal" data-bs-target="#editPublication" *ngIf="isLoggedIn"></fa-icon>
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Publicado el {{content.creationDate}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editPublication" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header yellow-bg">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar publicación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form" [formGroup]="form" (ngSubmit)="actualizar()">
+          <div class="form-group has-float-label">
+              <label>* Nuevo título</label>
+              <input class="form-control" formControlName="name" maxlength="80"
+                  [ngClass]="{'is-invalid': tieneError('name')}" required>
+              <div class="invalid-feedback d-block" *ngIf="tieneError('name')">* Requerido</div>
+          </div>
+
+          <button type="submit" class="btn btn-outline-dark btn-xs text-weight-bold mt-3" >
+              <i class="simple-icon-plus"></i> Actualizar
+          </button>
+          <button type="button" class="btn btn-outline-dark btn-xs text-weight-bold ms-3 mt-3" id="btnDismissModal" data-bs-dismiss="modal">
+              Cancelar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="watchPublication" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header yellow-bg">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ver publicación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form">
+          <div class="form-group has-float-label" *ngIf="contenido.idContentType == 'IMG'">
+              <p>{{contenido.name}}</p>
+              <img [src]="contenido.resource" alt="Imagen">
+          </div>
+
+          <div class="form-group has-float-label" *ngIf="contenido.idContentType == 'TXT'">
+            <p>{{contenido.name}}</p>
+            <textarea class="form-control" [readonly]="true">{{contenido.resource}}</textarea>
+          </div>
+
+          <div class="form-group has-float-label" *ngIf="contenido.idContentType == 'URL'">
+            <p>{{contenido.name}}</p>
+            <iframe [src]="safeVideoUrl" frameborder="0" allowfullscreen #miIframe></iframe>
+          </div>
+          <button type="button" class="btn btn-outline-dark btn-xs text-weight-bold ms-3 mt-3" id="btnDismissModal" data-bs-dismiss="modal">
+              Cerrar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

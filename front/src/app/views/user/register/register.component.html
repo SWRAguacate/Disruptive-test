@@ -1,0 +1,40 @@
+
+<br><br><br><br>
+<div id="divForm">
+  <form class="form" [formGroup]="form" (ngSubmit)="registrar()">
+    <div class="form-group has-float-label">
+      <label>* Usuario </label>
+      <input class="form-control" formControlName="username" maxlength="60"
+          [ngClass]="{'is-invalid': tieneError('username')}" required>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('username')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Tipo de usuario </label>
+      <select class="form-control" class="form-control" formControlName="idRole"
+        [ngClass]="{'is-invalid': tieneError('idRole')}" required>
+        <option value="Lector">Lector</option>
+        <option value="Creador">Creador</option>
+      </select>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('idRole')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Correo </label>
+      <input class="form-control" formControlName="email" maxlength="100"
+          [ngClass]="{'is-invalid': tieneError('email')}" required>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('email')">* Requerido</div>
+    </div>
+
+    <div class="form-group has-float-label">
+      <label>* Contraseña </label>
+      <input class="form-control" formControlName="password" type="password" maxlength="100"
+          [ngClass]="{'is-invalid': tieneError('password')}" required>
+      <div class="invalid-feedback d-block" *ngIf="tieneError('password')">* Requerido</div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-dark btn-xs text-weight-bold mt-3" >
+        <i class="simple-icon-plus"></i> Aceptar
+    </button>
+  </form>
+</div>
